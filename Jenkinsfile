@@ -32,16 +32,13 @@ pipeline {
             }
         }
 
-        stage('Deploy with Docker Compose') {
+        stage('Deploy') {
             steps {
                 sh """
-                    echo '=== Deploying with Docker Compose ==='
-                    
-                    # Bajar el stack si existe, pero sin fallar si no está levantado
-                    docker-compose down || true
+                    echo '=== Rebuilding backend & frontend ==='
 
-                    # Levantar todo nuevamente
-                    docker-compose up -d --build
+                    docker-compose build backend frontend
+                    docker-compose up -d backend frontend
                 """
             }
         }
